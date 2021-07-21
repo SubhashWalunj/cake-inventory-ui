@@ -22,7 +22,7 @@ function UpdateCake() {
             const newCake = { ...cake };
             newCake.imageUrl = uploadedImageUrl;
             try {
-                const updateResult = await fetch(`http://localhost:3100/cake/update`, {
+                const updateResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/cake/update`, {
                     method: 'PUT',
                     body: JSON.stringify({ newCakeDetails: newCake }),
                     headers: {

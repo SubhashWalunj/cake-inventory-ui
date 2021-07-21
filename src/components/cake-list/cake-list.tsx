@@ -14,7 +14,7 @@ function CakeList() {
     const { cakeToUpdate, setCakeToUpdate } = useUpdateCakeContext();
 
     async function fetchCakeList() {
-        const cakeListResult = await fetch('http://localhost:3100/cake/list');
+        const cakeListResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/cake/list`);
         const cakeListJson: IAPIResponse = await cakeListResult.json();
         if (cakeListJson.ok) {
             setCakes(cakeListJson.data);
@@ -37,7 +37,7 @@ function CakeList() {
 
     const deleteCake = async () => {
         try {
-            const cakeDeleteResult = await fetch(`http://localhost:3100/cake/delete/${cakeIdToDelete}`, {
+            const cakeDeleteResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/cake/delete/${cakeIdToDelete}`, {
                 method: 'DELETE',
                 headers: {
                     'content-type': 'application/json'

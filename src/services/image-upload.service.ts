@@ -1,5 +1,5 @@
 class ImageUploadService {
-    private endpoint: string = 'http://localhost:3100/image-upload';
+    private endpoint: string = `${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/image-upload`;
 
     public static async uploadImage(name: string, image: File): Promise<string | null> {
         const formData = new FormData();
@@ -8,7 +8,7 @@ class ImageUploadService {
 
         // upload image 1st
         try {
-            const imageUploadResult = await fetch(`http://localhost:3100/image-upload`, {
+            const imageUploadResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/image-upload`, {
                 method: 'POST',
                 body: formData
             });
