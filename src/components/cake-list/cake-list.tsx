@@ -11,7 +11,7 @@ function CakeList() {
     const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
     const [cakeIdToDelete, setCakeIdToDelete] = useState<number | null>();
     const [editCakeRoute, setEditCakeRoute] = useState(<></>);
-    const { cakeToUpdate, setCakeToUpdate } = useUpdateCakeContext();
+    const { setCakeToUpdate } = useUpdateCakeContext();
 
     async function fetchCakeList() {
         const cakeListResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/cake/list`);
