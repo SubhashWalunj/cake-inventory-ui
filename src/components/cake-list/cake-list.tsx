@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Rate, Row, Image, Alert, Tooltip, Button, Modal, notification } from 'antd';
+import { Card, Col, Rate, Row, Image, Alert, Tooltip, Button, Modal, notification, Spin } from 'antd';
 import { ICakeInterface } from '../../interfaces/cake.interface';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Redirect } from 'react-router-dom';
@@ -12,13 +12,17 @@ function CakeList() {
     const [cakeIdToDelete, setCakeIdToDelete] = useState<number | null>();
     const [editCakeRoute, setEditCakeRoute] = useState(<></>);
     const { setCakeToUpdate } = useUpdateCakeContext();
+    const [loading, setLoading] = useState(false);
 
     async function fetchCakeList() {
+        setLoading(true);
         const cakeListResult = await fetch(`${process.env.REACT_APP_API_END_POINT || 'http://localhost:3100'}/cake/list`);
         const cakeListJson: IAPIResponse = await cakeListResult.json();
         if (cakeListJson.ok) {
+            setLoading(false);
             setCakes(cakeListJson.data);
         } else {
+            setLoading(false);
             notification['error']({
                 message: 'Error',
                 description: cakeListJson.message
@@ -99,7 +103,10 @@ function CakeList() {
         );
     });
     if (!content.length) {
-        content = [<Alert key='0' style={{ flex: 1, textAlign: 'center' }} message="There is no cake in the inventory. Please add a new cake." type="info" />];
+        content = [<Alert key="0" style={{ flex: 1, textAlign: 'center' }} message="There is no cake in the inventory. Please add a new cake." type="info" />];
+    }
+    if (loading) {
+        content = [<Spin key="0" size="large" style={{ flex: 1 }} />];
     }
     return (
         <>
